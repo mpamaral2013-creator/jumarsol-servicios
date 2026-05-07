@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jumarsol Servicios</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Comic Sans MS', cursive;
+    background:#f4efe6;
+    color:#3b2f2a;
+}
+
+header{
+    text-align:center;
+    padding:20px;
+    background:#c89f7a;
+    color:white;
+    position:relative;
+}
+
+header h1{
+    font-size:32px;
+    margin:0;
+}
+
+.fox{
+    position:absolute;
+    right:10px;
+    top:10px;
+    width:60px;
+}
+
+.container{
+    max-width:420px;
+    margin:20px auto;
+    padding:15px;
+    background:#fffaf2;
+    border-radius:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+#adminPanel{
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    width:200px;
+    background:white;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+select, input, button{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:10px;
+    border:1px solid #d6c2ad;
+}
+
+button{
+    background:#7a5c3e;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#5e452f;
+}
+
+.card{
+    background:white;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.logo-personalizado {
+    width: 200px !important;
+    height: auto;
+    background: none;
+    display: block;
+    margin-left: 20px; 
+} 
+</style>
+</head>
+
+<body>
+
+<header style="display: flex;
+align-items:center;
+justify-content:center; gap:10px;
+padding:15px;">
+    <img src="logo.png" alt="logo" class="logo-personalizado">
+    </header>
+
+<div class="container">
+
+<div id="formulario" style="display:none;">
+<h3>Agregar trabajador</h3>
+
+<input id="nombre" placeholder="Nombre">
+<input id="telefono" placeholder="Teléfono">
+
+<select id="departamento" onchange="cargarZonas()"></select>
+<select id="zona"></select>
+<select id="oficio"></select>
+
+<button onclick="agregarTrabajador()">Guardar</button>
+</div>
+
+<hr>
+
+<h3>Buscar servicio</h3>
+
+<select id="filtroDepartamento" onchange="cargarZonasFiltro()">
+<option value="">Ciudad</option>
+<option value="Montevideo">Montevideo</option>
+<option value="Canelones">Canelones</option>
+</select>
+
+<select id="filtroZona">
+<option value="">Localidad</option>
+</select>
+
+<select id="filtroOficio">
+<option value="">Oficio</option>
+</select>
+
+<button onclick="buscar()">Buscar</button>
+
+<div id="resultados"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+const supabaseUrl = 'https://joiquazgklhcmrkemjku.supabase.co';
+const supabaseKey = 'sb_publishable_1trODQHT0JMrkFBPZsOKPg_mbzwRrS-';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+let trabajadores = [];
+let editandoId = null;
+
+/* ================= OFICIOS ================= */
+const oficios=[
+"Electricista","Costura","Reposteria","Sanitario",
+"Tecnico A.Acondicionado","Seguridad","Tecnico Electrodomesticos",
+"Dentista","Veterinaria/o","Masajes Terapeuticos","Traslados","Envios","Cadeteria",
+"Albañileria","Jardineria","Limpieza","Souvenirs,Regaleria"
+];
+
+/* ================= ZONAS CANELONES ================= */
+const zonasCanelones=[
+"Ciudad de la Costa","Araminda","Las Piedras","Las Toscas","El Pinar",
+"Paso Carrasco","Canelones","La Floresta","Atlántida",
+"Salinas","Pando","Barros Blancos","Parque del Plata"
+];
+
+/* ================= INIT ================= */
+document.addEventListener("DOMContentLoaded", async function(){
+    cargarDepartamentos();
+    cargarOficios();
+    cargarFiltros();
+    await cargarTrabajadores();
+});
+
+/* ================= SUPABASE LOAD ================= */
+async function cargarTrabajadores(){
+    let { data, error } = await supabaseClient
+        .from("trabajadores")
+        .select("*");
+
+    if(error){
+        console.error(error);
+        return;
+    }
+
+    trabajadores = data || [];
+}
+
+/* ================= LOGIN ================= */
+function login(){
+    if(document.getElementById("clave").value==="mery123"){
+        document.getElementById("formulario").style.display="block";
+        document.getElementById("adminPanel").style.display="none";
+    } else {
+        alert("Clave incorrecta");
+    }
+}
+
+/* ================= DEPARTAMENTOS ================= */
+function cargarDepartamentos(){
+    let d=document.getElementById("departamento");
+    d.innerHTML=`
+    <option value="">Seleccionar</option>
+    <option value="Montevideo">Montevideo</option>
+    <option value="Canelones">Canelones</option>
+    `;
+}
+
+/* ================= ZONAS ================= */
+function cargarZonas(){
+    let dep=document.getElementById("departamento").value;
+    let z=document.getElementById("zona");
+
+    z.innerHTML="<option value=''>Seleccionar</option>";
+
+    let lista=[];
+
+    if(dep==="Montevideo"){
+        lista=["Centro","Cordón","Pocitos","Buceo","Carrasco","Unión","La Teja","Paso Molino","Capurro","Cerro","Maroñas","Prado","Aguada"];
+    }
+
+    if(dep==="Canelones"){
+        lista=zonasCanelones;
+    }
+
+    lista.forEach(x=>{
+        z.innerHTML+=`<option value="${x}">${x}</option>`;
+    });
+}
+
+/* ================= ZONAS FILTRO ================= */
+function cargarZonasFiltro(){
+    let dep=document.getElementById("filtroDepartamento").value;
+    let z=document.getElementById("filtroZona");
+
+    z.innerHTML="<option value=''>Localidad</option>";
+
+    let lista=[];
+
+    if(dep==="Montevideo"){
+        lista=["Centro","Cordón","Pocitos","Buceo","Carrasco","Unión","La Teja","Paso Molino","Sayago","Cerro","Maroñas","Prado","Aguada"];
+    }
+
+    if(dep==="Canelones"){
+        lista=zonasCanelones;
+    }
+
+    lista.forEach(x=>{
+        z.innerHTML+=`<option value="${x}">${x}</option>`;
+    });
+}
+
+/* ================= OFICIOS ================= */
+function cargarOficios(){
+    let o=document.getElementById("oficio");
+    o.innerHTML="<option value=''>Seleccionar</option>";
+
+    oficios.forEach(x=>{
+        o.innerHTML+=`<option value="${x}">${x}</option>`;
+    });
+}
+
+/* ================= FILTROS ================= */
+function cargarFiltros(){
+    let f=document.getElementById("filtroOficio");
+    f.innerHTML="<option value=''>Oficio</option>";
+
+    oficios.forEach(x=>{
+        f.innerHTML+=`<option value="${x}">${x}</option>`;
+    });
+}
+
+/* ================= AGREGAR ================= */
+async function agregarTrabajador(){
+
+    let nombre=document.getElementById("nombre").value;
+    let tel=document.getElementById("telefono").value;
+
+    if(!nombre || !tel){
+        alert("Completá nombre y teléfono");
+        return;
+    }
+
+    let dataObj={
+        nombre,
+        tel,
+        departamento:document.getElementById("departamento").value,
+        zona:document.getElementById("zona").value,
+        oficio:document.getElementById("oficio").value,
+        calificacion:0,
+        votos:0
+    };
+
+    if(editandoId){
+
+        await supabaseClient
+        .from("trabajadores")
+        .update(dataObj)
+        .eq("id",editandoId);
+
+        editandoId=null;
+
+    } else {
+
+        await supabaseClient
+        .from("trabajadores")
+        .insert([dataObj]);
+    }
+
+    document.getElementById("nombre").value="";
+    document.getElementById("telefono").value="";
+
+    await cargarTrabajadores();
+}
+
+/* ================= EDITAR ================= */
+function editarTrabajador(id){
+    let t=trabajadores.find(x=>x.id===id);
+
+    document.getElementById("nombre").value=t.nombre;
+    document.getElementById("telefono").value=t.tel;
+    document.getElementById("departamento").value=t.departamento;
+
+    cargarZonas();
+
+    setTimeout(()=>{
+        document.getElementById("zona").value=t.zona;
+    },50);
+
+    document.getElementById("oficio").value=t.oficio;
+
+    editandoId=id;
+}
+
+/* ================= ELIMINAR ================= */
+async function eliminarTrabajador(id){
+
+    await supabaseClient
+    .from("trabajadores")
+    .delete()
+    .eq("id",id);
+
+    await cargarTrabajadores();
+    buscar();
+}
+
+/* ================= WHATSAPP ================= */
+function whatsapp(t){
+    window.open(`https://wa.me/598${t}`);
+}
+
+/* ================= CALIFICAR ================= */
+async function calificar(id,nota){
+
+    let t=trabajadores.find(x=>x.id===id);
+
+    let total=t.calificacion*t.votos;
+    let votos=t.votos+1;
+
+    await supabaseClient
+    .from("trabajadores")
+    .update({
+        votos,
+        calificacion:(total+nota)/votos
+    })
+    .eq("id",id);
+
+    await cargarTrabajadores();
+    buscar();
+}
+
+/* ================= BUSCAR ================= */
+function buscar(){
+
+    let dep=document.getElementById("filtroDepartamento").value;
+    let zona=document.getElementById("filtroZona").value;
+    let oficio=document.getElementById("filtroOficio").value;
+
+    let r=trabajadores.filter(t=>
+        (dep===""||t.departamento===dep)&&
+        (zona===""||t.zona===zona)&&
+        (oficio===""||t.oficio===oficio)
+    );
+
+    let c=document.getElementById("resultados");
+    c.innerHTML="";
+
+    if(r.length===0){
+        c.innerHTML="No hay resultados";
+        return;
+    }
+
+    r.forEach(t=>{
+        c.innerHTML+=`
+        <div class="card">
+        <b>${t.nombre}</b><br>
+        📍 ${t.departamento} - ${t.zona}<br>
+        🛠 ${t.oficio}<br>
+        📱 ${t.telefono}<br>
+        </div>`;
+    });
+}
+</script>
+
+</body>
+</html>
