@@ -149,8 +149,8 @@ let editandoId = null;
 /* ================= OFICIOS ================= */
 const oficios=[
 "Electricista","Costura","Reposteria","Sanitario",
-"Tecnico A.Acondicionado","Seguridad","Tecnico Electrodomesticos",
-"Dentista","Veterinaria/o","Masajes Terapeuticos","Traslados","Envios","Cadeteria",
+"Seguridad","Servicio Tecnico","Taller Mecanico","Leñeria","Abogacia/Escribania","Merceria","Cerrajeria","Tapiceria","Belleza Integral","Fotografia",
+"Dentista","Veterinaria/o","Masajes Terapeuticos","Traslados","Envios","Herrero","Fletes/Mudanzas","Cadeteria",
 "Albañileria","Jardineria","Limpieza","Peluqueria","Serv.Acompañantes","Gastronomia","Psicologa/o","Souvenirs,Regaleria"
 ];
 
@@ -213,7 +213,9 @@ function cargarZonas(){
     let lista=[];
 
     if(dep==="Montevideo"){
-        lista=["Centro","Capurro","Paso de la Arena","Nuevo Paris","Cerro","Colon","Goes","Cordon","Pocitos","Buceo","Carrasco","Reducto","Union","La Teja","Paso Molino","Capurro","Maroñas","Prado","Aguada"];
+        lista=["Centro","Capurro","Paso de la Arena","Nuevo Paris","Cerro","Colon","Goes","Cordon","Pocitos","Buceo","Carrasco","Reducto","Union",
+        "La Teja","Paso Molino","Capurro","Maroñas","Prado","Ciudad Vieja","Tres Cruces","La Blanqueada","Parque Batlle","Pta Carretas","Malvin","Belvedere",
+        "Lezica","Aguada","Peñarol","Sayago","Brazo Oriental","Villa Española"];
     }
 
     if(dep==="Canelones"){
@@ -235,7 +237,9 @@ function cargarZonasFiltro(){
     let lista=[];
 
     if(dep==="Montevideo"){
-        lista=["Centro","Cordón","Pocitos","Buceo","Carrasco","Unión","La Teja","Paso Molino","Sayago","Cerro","Maroñas","Prado","Aguada"];
+        lista=["Centro","Capurro","Paso de la Arena","Nuevo Paris","Cerro","Colon","Goes","Cordon","Pocitos","Buceo","Carrasco","Reducto","Union",
+        "La Teja","Paso Molino","Capurro","Maroñas","Prado","Ciudad Vieja","Tres Cruces","La Blanqueada","Parque Batlle","Pta Carretas","Malvin","Belvedere",
+        "Lezica","Aguada","Peñarol","Sayago","Brazo Oriental","Villa Española"];
     }
 
     if(dep==="Canelones"){
