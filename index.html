@@ -16,7 +16,7 @@ body{
 header{
     text-align:center;
     padding:20px;
-    background:#8cc784;
+    background:#b0e7a9;
     color:rgb(155, 182, 148);
     position:relative;
 }
@@ -149,17 +149,17 @@ let editandoId = null;
 /* ================= OFICIOS ================= */
 const oficios=[
 "Abogacia/Escribania","Albañileria","Belleza Integral","Cadeteria","Carpinteria","Cerrajeria","Cursos","Costura","Dentista","Electricista","Envios",
-"Fotografia","Fletes/Mudanzas","Gastronomia","Herreria","Jardineria","Limpieza","Leñeria","Masajes Terapeuticos","Merceria","Peluqueria","Psicologo/Psicopedagogo",
+"Fotografia","Fletes/Mudanzas","Gastronomia","Herreria","Jardineria","Limpieza","Leñeria","Masajes Terapeuticos","Merceria","Peluqueria","Podologia","Psicologo/Psicopedagogo",
 "Reposteria","Sanitario","Seguridad","Servicio Tecnico","Souvenirs,Regaleria","Serv.Acompañantes","Salones de fiesta/Decoracion","Sublimacion",
 "Taller Mecanico","Tapiceria","Terapias Holisticas","Traslados","Veterinaria/o"
 ];
 
 /* ================= ZONAS CANELONES ================= */
 const zonasCanelones=[
-"Ciudad de la Costa","Araminda","Las Piedras","Las Toscas","Solymar","Lagomar","Neptunia","Pinamar","Marindia","El Fortin","El Pinar",
-"Paso Carrasco","Canelones","La Floresta","Atlántida","Villa Argentina","Las Vegas","Costa Azul","Bello Horizonte","Guazuvira","San Luis",
-"Salinas","Pando","Barros Blancos","Parque del Plata","Los Titanes","Cuchilla Alta","Jaureguiberry","Shangrila","Barros Blancos","Empalme Olmos",
-"Suarez","Soca","Toledo","Joaquin Suarez","Sauce","Santa Rosa","San Ramon","Tala","La Paz","Progreso","Sta Lucia","Los Cerrillos"
+"Atlántida","Araminda","Barros Blancos","Bello Horizonte","Canelones","Costa Azul","Ciudad de la Costa","Cuchilla Alta","Empalme Olmos",
+"El Fortin","El Pinar","Guazuvira","Jaureguiberry","Lagomar","La Floresta","La Paz","Las Piedras","Las Toscas","Las Vegas","Los Cerrillos",
+"Los Titanes","Marindia","Neptunia","Paso Carrasco","Pinamar","Pando","Parque del Plata","Progreso","Salinas","Shangrila","San Luis","Santa Rosa","San Ramon",
+"Sauce","Solymar","Soca","Sta Lucia","Suarez","Tala","Toledo","Villa Argentina"
 ];
 
 /* ================= INIT ================= */
@@ -214,10 +214,10 @@ function cargarZonas(){
     let lista=[];
 
     if(dep==="Montevideo"){
-        lista=["Centro","Capurro","Paso de la Arena","Nuevo Paris","Cerro","Colon","Goes","Cordon","Pocitos","Buceo","Carrasco","Reducto","Union",
-        "La Teja","Paso Molino","Capurro","Maroñas","Prado","Ciudad Vieja","Tres Cruces","La Blanqueada","Parque Batlle","Pta Carretas","Malvin","Belvedere",
-        "Lezica","Aguada","Peñarol","Sayago","Brazo Oriental","La Comercial","Parque Rodo", "Aires Puros","Atahualpa","Casavalle","Cerrito","Villa Española",
-    "Conciliacion","Flor de Maroñas","Manga","Palermo","Piedras Blancas","Pta Gorda","Villa Dolores"];
+         lista=["Aguada","Aires Puros","Atahualpa","Belvedere","Brazo Oriental","Buceo","Capurro","Carrasco","Casavalle","Centro","Cerro","Cerrito","Ciudad Vieja",
+        "Colon","Conciliacion","Cordon","Flor de Maroñas","Goes","La Blanqueada","La Comercial", "La Teja","Lezica","Malvin", "Manga","Maroñas","Nuevo Paris",
+        "Palermo","Parque Batlle","Parque Rodo","Paso de la Arena", "Paso Molino","Peñarol","Piedras Blancas","Pocitos","Prado","Pta Carretas","Pta Gorda",
+        "Reducto","Sayago","Tres Cruces","Union", "Villa Española", "Villa Dolores"];
     }
 
     if(dep==="Canelones"){
@@ -239,10 +239,10 @@ function cargarZonasFiltro(){
     let lista=[];
 
     if(dep==="Montevideo"){
-        lista=["Centro","Capurro","Paso de la Arena","Nuevo Paris","Cerro","Colon","Goes","Cordon","Pocitos","Buceo","Carrasco","Reducto","Union",
-        "La Teja","Paso Molino","Capurro","Maroñas","Prado","Ciudad Vieja","Tres Cruces","La Blanqueada","Parque Batlle","Pta Carretas","Malvin","Belvedere",
-        "Lezica","Aguada","Peñarol","Sayago","Brazo Oriental","La Comercial","Parque Rodo", "Aires Puros","Atahualpa","Casavalle","Cerrito","Villa Española",
-    "Conciliacion","Flor de Maroñas","Manga","Palermo","Piedras Blancas","Pta Gorda","Villa Dolores"];
+        lista=["Aguada","Aires Puros","Atahualpa","Belvedere","Brazo Oriental","Buceo","Capurro","Carrasco","Casavalle","Centro","Cerro","Cerrito","Ciudad Vieja",
+        "Colon","Conciliacion","Cordon","Flor de Maroñas","Goes","La Blanqueada","La Comercial", "La Teja","Lezica","Malvin", "Manga","Maroñas","Nuevo Paris",
+        "Palermo","Parque Batlle","Parque Rodo","Paso de la Arena", "Paso Molino","Peñarol","Piedras Blancas","Pocitos","Prado","Pta Carretas","Pta Gorda",
+        "Reducto","Sayago","Tres Cruces","Union", "Villa Española", "Villa Dolores"];
     }
     
     if(dep==="Canelones"){
